@@ -1,99 +1,72 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Luxo - Área Administrativa</title>
-    <link rel="shortcut icon" href="images/barco2.png" type="image/x-icon" />
-    <link rel="stylesheet" href="css/default.css" />
-  </head>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Contato</title>
 
-  <body>
-    <div class="page">
-    <header>
-      <div id="title">
-        <img src="images/barco1.png" alt="ícone de barco" />
-        <div class="headtitle">
-          <h1>Luxo</h1>
-          <h2>Aluguel de iates</h2>
-        </div>
-      </div>
+    <!-- jQuery obrigatório porque sua API usa -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-      <nav>
-        <ul class="navmenu">
-          <li><a href="index.html">Página inicial</a></li>
-          <li><a href="aluguel.html">Aluguel de iates</a></li>
-          <li><a href="destinos.html">Destinos</a></li>
-          <li><a href="tripulacao.html">Tripulação</a></li>
-          <li><a href="contato.html">Contato</a></li>
-          <li><a href="admin.html" class="accent">Admin</a></li>
-        </ul>
-      </nav>
-    </header>
+    <!-- API HEROKU -->
+    <script src="api.js"></script>
 
-    <main>
-      <div class="pagtitle">
-        <div class="bgtitle"></div>
-        <h2>Acesso Administrativo</h2>
-      </div>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        input, textarea {
+            width: 300px; padding: 10px; margin-bottom: 15px;
+            border-radius: 6px; border: 1px solid #777;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid #555;
+            background: #ddd;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
 
-      <section class="login-section">
-        <form id="formLogin">
-            <div class="entry">
-              <label for="email">E-mail</label>
-              <input type="email" id="email" required placeholder="Email" />
-            </div>
-    
-            <div class="entry">
-              <label for="senha">Senha</label>
-              <input type="password" id="senha" required placeholder="Senha" />
-            </div>
-    
-            <div class="entry">
-              <button type="submit" class="btn">Entrar</button>
-            </div>
-          </form>
-      </section>
-    </main>
-    </div>
+<body>
+    <h2>Fale Conosco</h2>
 
-    <footer>
-      <p>© 2023 por Luxo aluguel de iates</p>
-    </footer>
+    <form id="formContato">
+        <label>Nome:</label><br>
+        <input type="text" id="nome" required><br>
 
-    <script src="js/jquery-3.6.4.min.js"></script>
-    <script src="js/api.js"></script>
+        <label>E-mail:</label><br>
+        <input type="email" id="email" required><br>
 
-    
+        <label>Mensagem:</label><br>
+        <textarea id="msg" required></textarea><br>
+
+        <button type="submit">Enviar Mensagem</button>
+    </form>
+
+    <p id="mensagemRetorno" style="color: green; font-weight: bold;"></p>
+
     <script>
-        $(document).ready(function() {
-            $('#formLogin').submit(function(event) {
-                event.preventDefault();
+        document.getElementById('formContato').addEventListener('submit', function(e){
+            e.preventDefault();
 
-                var emailVal = $('#email').val();
-                var senhaVal = $('#senha').val();
+            let nome = document.getElementById('nome').value;
+            let email = document.getElementById('email').value;
+            let msg = document.getElementById('msg').value;
 
-                
-                var objLoginSenha = {
-                    email: emailVal,
-                    senha: senhaVal
-                };
+            let mensagem = {
+                nome: nome,
+                email: email,
+                mensagem: msg
+            };
 
-                
-                var autenticado = validarUsuario(objLoginSenha);
+            inserirMensagem(mensagem);  // ENVIA PARA SUA API
 
-                if (autenticado) {
-                    
-                    window.location.href = "mensagens.html";
-                } else {
-                    
-                    alert("E-mail e Senha inválidos");
-                }
-            });
+            document.getElementById('mensagemRetorno').textContent =
+                "Mensagem enviada com sucesso!";
+
+            document.getElementById('formContato').reset();
         });
     </script>
 
-   
-  </body>
+</body>
 </html>
