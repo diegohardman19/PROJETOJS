@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<style>
+    table { width:100%; border-collapse:collapse; margin-top:20px; }
+    th, td { border:1px solid #ccc; padding:10px; }
+    th { background:#eee; }
+    .nao-lida td { font-weight:bold; }
+    .btn-v { background:#2d8cf0; color:#fff; padding:6px 12px; border-radius:6px; border:none; cursor:pointer; }
+    .btn-e { background:#e63946; color:#fff; padding:6px 12px; border-radius:6px; border:none; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<h2>Mensagens Recebidas</h2>
+
+<table>
+    <thead>
+        <tr><th>Nome</th><th>Email</th><th>Mensagem</th><th>Ações</th></tr>
+    </thead>
+    <tbody id="lista"></tbody>
+</table>
+
+<script>
+
+if (localStorage.getItem("adminLogado") !== "true")
+    location.href = "admin.html";
+
+const API = "https://app-p2-js-c88e9128234a.herokuapp.com/mensagens";
+
+// ---------------------------------------------------------
+//  CARREGAR MENSAGENS (agora ordenado do mais novo → mais antigo)
+// ---------------------------------------------------------
+function carregar() {
+    $.get(API, msgs => {
+
+        // Ordenar mensagens da mais nova para a mais antiga
+        msgs.sort((a, b) => b.id - a.id);
+
+        let t = "";
+        msgs.forEach(m => {
+            t += `
+            <tr id="m${m.id}" class="${m.visualizada ? "" : "nao-lida"}">
+                <td>${m.nome}</td>
+                <td>${m.email}</td>
+                <td>${m.mensagem}</td>
+                <td>
+                    <button class="btn-v" onclick="visualizar(${m.id})">Mensagem Visualizada</button>
+                    <button class="btn-e" onclick="remover(${m.id})">Excluir</button>
+                </td>
+            </tr>`;
+        });
+
+        $("#lista").html(t);
+    });
+}
+
+// ---------------------------------------------------------
+//  MARCAR COMO VISUALIZADA (tira o negrito de verdade)
+// ---------------------------------------------------------
+function visualizar(id) {
+    if (!confirm("Marcar esta mensagem como visualizada?")) return;
+
+    $.ajax({
+        url: `${API}/lida/${id}`,
+        method: "PUT",
+        success: () => {
+
+            // Recarrega a lista após atualizar no backend
+            carregar();
+        }
+    });
+}
+
+// ---------------------------------------------------------
+//  EXCLUIR MENSAGEM (com confirmação)
+// ---------------------------------------------------------
+function remover(id) {
+    if (!confirm("Tem certeza que deseja excluir esta mensagem?")) return;
+
+    $.ajax({
+        url: `${API}/${id}`,
+        method: "DELETE",
+        success: carregar
+    });
+}
+
+carregar();
+
+</script>
+</body>
+</html>
