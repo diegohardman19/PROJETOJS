@@ -29,7 +29,7 @@ body {
 
 .page {
     margin: 0 auto;
-    width: 980px;
+    width: 1080px;
 }
 
 /* header */
@@ -41,7 +41,7 @@ header {
     justify-content: space-between;
     padding-bottom: 5px;
     position: fixed;
-    width: 980px;
+    width: 1080px;
     z-index: 1;
 }
 
@@ -86,7 +86,7 @@ header {
 }
 
 .navmenu li {
-    padding: 0 24px;
+    padding: 0 27px;
     font-size: 0.8em;
     font-weight: 300;
     border-left: 0.5px solid white;
@@ -178,7 +178,7 @@ main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 35px;
-    margin: 15px 30px 0 30px;
+    margin: 150px 30px 0 30px;
     padding-bottom: 40px;
 }
 
@@ -230,33 +230,61 @@ main {
     column-gap: 5px;
 }
 
-/* aluguel */
+/* =============================== */
+/* ALUGUEL — IMAGENS 450×300 FIXAS */
+/* =============================== */
 
 .aluguel {
-    max-width: 930px;
-    margin: 0 auto;
-    padding-bottom: 20px;
+    padding: 50px 5%;
+    background: #f5f5f5;
+}
+
+.aluguel-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
 }
 
-.aluguel img {
-    max-width: 450px;
-    margin: 15px 0 10px;
-}
-
-.aluguel p {
-    margin-bottom: 10px;
-}
-
-.aluguel h2 {
-    color: white;
-    background-color: var(--box);
-    padding: 5px;
+.aluguel-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
     text-align: center;
-    font: italic 400 1.2em var(--pagefont);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: .3s;
 }
+
+.aluguel-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 🔥 TAMANHO FIXO DAS IMAGENS — EXIGIDO POR VOCÊ */
+.aluguel img {
+    width: 450px !important;
+    height: 300px !important;
+    object-fit: cover !important;
+    display: block;
+    margin: 0 auto;
+}
+
+.img-box {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.aluguel-card h2 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.aluguel-card p {
+    font-size: .9rem;
+    color: #555;
+}
+
 
 /* destinos */
 
@@ -363,7 +391,7 @@ footer {
 }
 
 footer p {
-    width: 980px;
+    width: 1080px;
     padding: 25px 0;
     background-color: var(--background);
     margin: 0 auto;
